@@ -58,8 +58,8 @@ public class StringListImpl implements StringList {
         if (index == -1) {
             throw new ElementNotFoundException();
         }
-        if (index!=size) {
-            System.arraycopy(array, index+1, array, index, size-index);
+        if (index != size) {
+            System.arraycopy(array, index + 1, array, index, size - index);
         }
         size--;
         return item;
@@ -69,8 +69,8 @@ public class StringListImpl implements StringList {
     public String remove(int index) {
         validateIndex(index);
         String item = array[index];
-        if (index!=size) {
-            System.arraycopy(array, index+1, array, index, size-index);
+        if (index != size) {
+            System.arraycopy(array, index + 1, array, index, size - index);
         }
         size--;
         return item;
@@ -78,7 +78,7 @@ public class StringListImpl implements StringList {
 
     @Override
     public boolean contains(String item) {
-        return indexOf(item)!=-1;
+        return indexOf(item) != -1;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class StringListImpl implements StringList {
 
     @Override
     public int lastIndexOf(String item) {
-        for (int i = size-1; i >= 0; i--) {
+        for (int i = size - 1; i >= 0; i--) {
             if (array[i].equals(item)) {
                 return i;
             }
@@ -119,7 +119,7 @@ public class StringListImpl implements StringList {
 
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     @Override
@@ -145,7 +145,7 @@ public class StringListImpl implements StringList {
     }
 
     private void validateIndex(int index) {
-        if (index <0||index>=size) {
+        if (index < 0 || index >= size) {
             throw new InvalidIndexException();
         }
     }
