@@ -13,9 +13,22 @@ public class Main {
         stringList.add("Str5");
         stringList.add("Str6");
         stringList.add("Str7");
-        stringList.add(5, "STR");
         String[] array = stringList.toArray();
         System.out.println(Arrays.toString(array));
+        IntegerListImpl integerList = new IntegerListImpl();
+        Integer[] arrayInteger = new Integer[100000];
+        SortedMethodAnalise.createArray(arrayInteger);
 
+        integerList.toArray(arrayInteger);
+
+        long start1 = System.currentTimeMillis();
+        SortedMethodAnalise.sortBubble(integerList.toArray(arrayInteger));
+        System.out.println("sortBubble = " + (System.currentTimeMillis() - start1));
+        long start2 = System.currentTimeMillis();
+        SortedMethodAnalise.sortSelection(integerList.toArray(arrayInteger));
+        System.out.println("sortSelection = " + (System.currentTimeMillis() - start2));
+        long start3 = System.currentTimeMillis();
+        SortedMethodAnalise.sortInsertion(integerList.toArray(arrayInteger));
+        System.out.println("sortInsertion = " + (System.currentTimeMillis() - start3));
     }
 }
