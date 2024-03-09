@@ -2,26 +2,26 @@ package org.example;
 
 import java.util.Arrays;
 
-public class StringListImpl implements StringList {
-    public String[] getArray() {
+public class IntegerListImpl implements IntegerList {
+    public Integer[] getArray() {
         return array;
     }
 
-    private final String[] array;
+    private final Integer[] array;
     private int size;
 
-    public StringListImpl() {
-        array = new String[10];
+    public IntegerListImpl() {
+        array = new Integer[10];
 
     }
 
-    public StringListImpl(int initSize) {
-        array = new String[initSize];
+    public IntegerListImpl(int initSize) {
+        array = new Integer[initSize];
 
     }
 
     @Override
-    public String add(String item) {
+    public Integer add(Integer item) {
         validateItem(item);
         validateSize();
         array[size++] = item;
@@ -29,7 +29,7 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String add(int index, String item) {
+    public Integer add(int index, Integer item) {
         validateSize();
         validateIndex(index);
         validateItem(item);
@@ -44,7 +44,7 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String set(int index, String item) {
+    public Integer set(int index, Integer item) {
         validateIndex(index);
         validateItem(item);
         array[index] = item;
@@ -52,7 +52,7 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String remove(String item) {
+    public Integer remove(Integer item) {
         validateItem(item);
         int index = indexOf(item);
         if (index == -1) {
@@ -66,9 +66,9 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String remove(int index) {
+    public Integer remove(int index) {
         validateIndex(index);
-        String item = array[index];
+        Integer item = array[index];
         if (index != size) {
             System.arraycopy(array, index + 1, array, index, size - index);
         }
@@ -77,12 +77,14 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public boolean contains(String item) {
-        return indexOf(item) != -1;
+    public boolean contains(Integer item) {
+        Integer[] arrCopy = toArray();
+        SortedMethodAnalise.sortSelection(arrCopy);
+        return binarySearch(arrCopy, item);
     }
 
     @Override
-    public int indexOf(String item) {
+    public int indexOf(Integer item) {
         for (int i = 0; i < size; i++) {
             if (array[i].equals(item)) {
                 return i;
@@ -92,7 +94,7 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public int lastIndexOf(String item) {
+    public int lastIndexOf(Integer item) {
         for (int i = size - 1; i >= 0; i--) {
             if (array[i].equals(item)) {
                 return i;
@@ -102,13 +104,13 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
         validateIndex(index);
         return array[index];
     }
 
     @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntegerList otherList) {
         return Arrays.equals(this.toArray(), otherList.toArray());
     }
 
@@ -128,11 +130,15 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String[] toArray() {
+    public Integer[] toArray() {
         return Arrays.copyOf(array, size);
     }
 
-    private void validateItem(String item) {
+    public Integer[] toArray(Integer[] array) {
+        return Arrays.copyOf(array, array.length);
+    }
+
+    private void validateItem(Integer item) {
         if (item == null) {
             throw new NullEtemException();
         }
@@ -148,5 +154,29 @@ public class StringListImpl implements StringList {
         if (index < 0 || index >= size) {
             throw new InvalidIndexException();
         }
+    }
+
+    private void sort(Integer[] arr) {
+
+    }
+
+    private boolean binarySearch(Integer[] arr, int item) {
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (item == arr[mid]) {
+                return true;
+            }
+
+            if (item < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
     }
 }
