@@ -15,10 +15,12 @@ public class Main {
         stringList.add("Str7");
         String[] array = stringList.toArray();
         System.out.println(Arrays.toString(array));
+
         IntegerListImpl integerList = new IntegerListImpl();
         Integer[] arrayInteger = new Integer[100000];
         SortedMethodAnalise.createArray(arrayInteger);
 
+        integerList.add(0, 2);
         integerList.toArray(arrayInteger);
 
         long start1 = System.currentTimeMillis();

@@ -1,5 +1,7 @@
 package org.example;
 
+import com.sun.jdi.IntegerType;
+
 import java.util.Arrays;
 
 public class IntegerListImpl implements IntegerList {
@@ -7,7 +9,7 @@ public class IntegerListImpl implements IntegerList {
         return array;
     }
 
-    private final Integer[] array;
+    private Integer[] array;
     private int size;
 
     public IntegerListImpl() {
@@ -20,17 +22,25 @@ public class IntegerListImpl implements IntegerList {
 
     }
 
+    public void setArray(Integer[] array) {
+        this.array = array;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     @Override
     public Integer add(Integer item) {
         validateItem(item);
-        validateSize();
+        growIfNeeded();
         array[size++] = item;
         return item;
     }
 
     @Override
     public Integer add(int index, Integer item) {
-        validateSize();
+        growIfNeeded();
         validateIndex(index);
         validateItem(item);
 
@@ -144,9 +154,9 @@ public class IntegerListImpl implements IntegerList {
         }
     }
 
-    private void validateSize() {
+    private void growIfNeeded() {
         if (size == array.length) {
-            throw new ArrayIsFullException();
+            grow();
         }
     }
 
@@ -157,9 +167,8 @@ public class IntegerListImpl implements IntegerList {
     }
 
     private void sort(Integer[] arr) {
-
+        quickSort(arr, 0, arr.length - 1);
     }
-
     private boolean binarySearch(Integer[] arr, int item) {
         int min = 0;
         int max = arr.length - 1;
@@ -178,5 +187,38 @@ public class IntegerListImpl implements IntegerList {
             }
         }
         return false;
+    }
+    private void grow () {
+        array = Arrays.copyOf(array, size + size / 2);
+    }
+
+    public static void quickSort(Integer[] arr, Integer begin, Integer end) {
+        if (begin < end) {
+            Integer partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
+        }
+    }
+    private static Integer partition(Integer[] arr, Integer begin, Integer end) {
+        Integer pivot = arr[end];
+        Integer i = (begin - 1);
+
+        for (Integer j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                swapElements(arr, i, j);
+            }
+        }
+
+        swapElements(arr, i + 1, end);
+        return i + 1;
+    }
+
+    private static void swapElements(Integer[] arr, Integer left, Integer right) {
+        Integer temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
     }
 }
