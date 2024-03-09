@@ -62,7 +62,6 @@ class StringListImplTest {
     }
 
 
-
     @Test
     void indexOf() {
         stringList.add("apple");
